@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:x_technology_test/start_screen/screen.dart';
+import 'package:x_technology_test/app.dart';
+import 'package:x_technology_test/authentication/authentication_repository.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,11 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const StartScreen(),
+      home: App(
+        authenticationRepository: AuthenticationRepository(),
+      ),
       debugShowCheckedModeBanner: false,
     );
   }

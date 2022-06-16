@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 class InputWidget extends StatelessWidget {
   final String title;
   final String hintText;
+  final Function(String text) onChanged;
+  final String? errorText;
+  final bool? obscureText;
   const InputWidget({
     Key? key,
     required this.title,
     required this.hintText,
+    required this.onChanged,
+    required this.errorText,
+    this.obscureText,
   }) : super(key: key);
 
   @override
@@ -36,28 +42,25 @@ class InputWidget extends StatelessWidget {
       ),
       Padding(
         padding: const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 30),
-        child: Container(
-          width: double.infinity,
-          height: 51,
-          decoration: BoxDecoration(
-              border: Border.all(color: const Color.fromARGB(255, 240, 240, 240)),
-              borderRadius: BorderRadius.circular(3)),
-          child: TextField(
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.only(left: 20, top: 16, bottom: 16),
-              border: InputBorder.none,
-              hintText: hintText,
-              hintStyle: const TextStyle(
-                fontFamily: 'Pretendard',
-                color: Color(0x4c222222),
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                fontStyle: FontStyle.normal,
-                letterSpacing: -0.16,
-              ),
+        child: TextField(
+          obscureText: obscureText ?? false,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.only(left: 20, top: 16, bottom: 16),
+            border: OutlineInputBorder(),
+            hintText: hintText,
+            hintStyle: const TextStyle(
+              fontFamily: 'Pretendard',
+              color: Color(0x4c222222),
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              fontStyle: FontStyle.normal,
+              letterSpacing: -0.16,
             ),
-            onChanged: (value) => {},
+            errorText: errorText,
           ),
+          onChanged: (text) {
+            onChanged(text);
+          },
         ),
       ),
     ]);
