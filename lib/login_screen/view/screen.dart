@@ -4,6 +4,8 @@ import 'package:formz/formz.dart';
 import 'package:x_technology_test/authentication/authentication_repository.dart';
 import 'package:x_technology_test/authentication/bloc/authentication_bloc.dart';
 import 'package:x_technology_test/login_screen/bloc/login_bloc.dart';
+import 'package:x_technology_test/login_screen/models/login.dart';
+import 'package:x_technology_test/login_screen/models/password.dart';
 import 'package:x_technology_test/navigation/bloc/navigation_bloc.dart';
 import 'package:x_technology_test/widgets/input_widget/input_widget.dart';
 
@@ -47,7 +49,13 @@ class LoginScreen extends StatelessWidget {
                                     title: "Phone / eMail",
                                     hintText: "Enter Phone or eMail",
                                     onChanged: (login) => context.read<LoginBloc>().add(LoginUsernameChanged(login)),
-                                    errorText: state.login.invalid ? 'invalid username' : null,
+                                    errorText: state.login.pure
+                                        ? null
+                                        : state.login.error == LoginValidationError.empty
+                                            ? 'empty login'
+                                            : state.login.error == LoginValidationError.invalid
+                                                ? 'invalid login'
+                                                : null,
                                   );
                                 }),
                             BlocBuilder<LoginBloc, LoginState>(
@@ -59,7 +67,13 @@ class LoginScreen extends StatelessWidget {
                                     obscureText: true,
                                     onChanged: (password) =>
                                         context.read<LoginBloc>().add(LoginPasswordChanged(password)),
-                                    errorText: state.password.invalid ? 'invalid password' : null,
+                                    errorText: state.password.pure
+                                        ? null
+                                        : state.password.error == PasswordValidationError.empty
+                                            ? 'empty password'
+                                            : state.password.error == PasswordValidationError.invalid
+                                                ? 'invalid password'
+                                                : null,
                                   );
                                 }),
                           ],

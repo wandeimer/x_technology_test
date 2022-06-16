@@ -4,6 +4,9 @@ import 'package:formz/formz.dart';
 import 'package:x_technology_test/authentication/authentication_repository.dart';
 import 'package:x_technology_test/navigation/bloc/navigation_bloc.dart';
 import 'package:x_technology_test/register_screen/bloc/register_bloc.dart';
+import 'package:x_technology_test/register_screen/models/mail.dart';
+import 'package:x_technology_test/register_screen/models/password.dart';
+import 'package:x_technology_test/register_screen/models/phone.dart';
 import 'package:x_technology_test/widgets/input_widget/input_widget.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -54,10 +57,16 @@ class RegisterScreen extends StatelessWidget {
                                   builder: (context, state) {
                                     return InputWidget(
                                       title: "Phone",
-                                      hintText: "8-800-555-35-35",
+                                      hintText: "88005553535",
                                       onChanged: (phone) =>
                                           context.read<RegisterBloc>().add(RegisterPhoneChanged(phone)),
-                                      errorText: state.phone.invalid ? 'invalid phone' : null,
+                                      errorText: state.phone.pure
+                                          ? null
+                                          : state.phone.error == PhoneValidationError.empty
+                                              ? 'empty phone'
+                                              : state.phone.error == PhoneValidationError.invalid
+                                                  ? 'invalid phone'
+                                                  : null,
                                     );
                                   }),
                               BlocBuilder<RegisterBloc, RegisterState>(
@@ -67,7 +76,13 @@ class RegisterScreen extends StatelessWidget {
                                       title: "eMail",
                                       hintText: "ivan@gmail.com",
                                       onChanged: (mail) => context.read<RegisterBloc>().add(RegisterMailChanged(mail)),
-                                      errorText: state.mail.invalid ? 'invalid mail' : null,
+                                      errorText: state.mail.pure
+                                          ? null
+                                          : state.mail.error == MailValidationError.empty
+                                              ? 'empty mail'
+                                              : state.mail.error == MailValidationError.invalid
+                                                  ? 'invalid mail'
+                                                  : null,
                                     );
                                   }),
                               BlocBuilder<RegisterBloc, RegisterState>(
@@ -78,7 +93,13 @@ class RegisterScreen extends StatelessWidget {
                                       hintText: "Enter your password",
                                       onChanged: (password) =>
                                           context.read<RegisterBloc>().add(RegisterPasswordChanged(password)),
-                                      errorText: state.password.invalid ? 'invalid password' : null,
+                                      errorText: state.password.pure
+                                          ? null
+                                          : state.password.error == PasswordValidationError.empty
+                                              ? 'empty password'
+                                              : state.password.error == PasswordValidationError.invalid
+                                                  ? 'invalid password'
+                                                  : null,
                                     );
                                   }),
                             ],

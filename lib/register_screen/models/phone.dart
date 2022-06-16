@@ -8,6 +8,12 @@ class Phone extends FormzInput<String, PhoneValidationError> {
 
   @override
   PhoneValidationError? validator(String? value) {
-    return value?.isNotEmpty == true ? null : PhoneValidationError.empty;
+    if (value?.isNotEmpty == false) {
+      return PhoneValidationError.empty;
+    } else if (!RegExp(r'^(?:[+7])?[0-9]{11}$').hasMatch(value ?? "")) {
+      return PhoneValidationError.invalid;
+    } else {
+      return null;
+    }
   }
 }
