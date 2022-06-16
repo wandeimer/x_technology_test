@@ -29,7 +29,7 @@ class UserDB {
     return db;
   }
 
-  Future<List<User>> getAllUsers2() async {
+  Future<List<User>> getAllUsers() async {
     Database db = await database;
     List<Map> query = await db.rawQuery("SELECT * FROM Users ORDER BY id DESC");
     List<User> result = [];

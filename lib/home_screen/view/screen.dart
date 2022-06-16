@@ -31,6 +31,10 @@ class HomeScreen extends StatelessWidget {
                     label: "Email",
                     data: state.user.eMail,
                   ),
+                  UserInfoField(
+                    label: "Password",
+                    data: state.user.password,
+                  ),
                   Button(
                     title: "LogOut",
                     action: () {
