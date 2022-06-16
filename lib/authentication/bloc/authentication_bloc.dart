@@ -15,6 +15,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         super(const AuthenticationState.unknown()) {
     on<AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<AuthenticationLogoutRequested>(_onAuthenticationLogoutRequested);
+    on<AuthenticationDeleteAccountRequested>(_onAuthenticationDeleteAccountRequested);
+    on<AuthenticationDeleteAllAccountsRequested>(_onAuthenticationDeleteAllAccountsRequested);
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
       (status) => add(AuthenticationStatusChanged(status)),
     );
@@ -38,7 +40,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       case AuthenticationStatus.unauthenticated:
         return emit(const AuthenticationState.unauthenticated());
       case AuthenticationStatus.authenticated:
-        final User user = User('', '', '', '');
+        final User? user = _authenticationRepository.user;
         return emit(
             user != null ? AuthenticationState.authenticated(user) : const AuthenticationState.unauthenticated());
       default:
@@ -51,5 +53,19 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     Emitter<AuthenticationState> emit,
   ) {
     _authenticationRepository.logOut();
+  }
+
+  void _onAuthenticationDeleteAccountRequested(
+    AuthenticationDeleteAccountRequested event,
+    Emitter<AuthenticationState> emit,
+  ) {
+    _authenticationRepository.deleteUser();
+  }
+
+  void _onAuthenticationDeleteAllAccountsRequested(
+    AuthenticationDeleteAllAccountsRequested event,
+    Emitter<AuthenticationState> emit,
+  ) {
+    _authenticationRepository.deleteAllUsers();
   }
 }

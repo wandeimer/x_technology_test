@@ -19,17 +19,17 @@ class HomeScreen extends StatelessWidget {
               return ListView(
                 padding: const EdgeInsets.only(top: 40),
                 children: [
-                  const UserInfoField(
+                  UserInfoField(
                     label: "Name",
-                    data: "Ivan",
+                    data: state.user.name,
                   ),
-                  const UserInfoField(
+                  UserInfoField(
                     label: "Phone",
-                    data: "88005553535",
+                    data: state.user.phone,
                   ),
-                  const UserInfoField(
+                  UserInfoField(
                     label: "Email",
-                    data: "mail@mail.ru",
+                    data: state.user.eMail,
                   ),
                   Button(
                     title: "LogOut",
@@ -39,11 +39,15 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Button(
                     title: "LogOut and delete account",
-                    action: () {},
+                    action: () {
+                      context.read<AuthenticationBloc>().add(AuthenticationDeleteAccountRequested());
+                    },
                   ),
                   Button(
                     title: "Delete all accounts",
-                    action: () {},
+                    action: () {
+                      context.read<AuthenticationBloc>().add(AuthenticationDeleteAllAccountsRequested());
+                    },
                   ),
                 ],
               );
