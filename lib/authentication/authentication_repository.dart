@@ -20,8 +20,6 @@ class AuthenticationRepository {
     required String password,
   }) async {
     UserDB _database = UserDB();
-    List test = await _database.getAllUsers2();
-    print(test);
     List byPhone = await _database.loginByPhone(phone: login, pass: password);
     if (byPhone.isNotEmpty) {
       user = byPhone[0];
